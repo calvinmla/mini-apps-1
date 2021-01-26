@@ -1,3 +1,20 @@
+span {
+  width: auto;
+  margin: 20px;
+}
+
+.board div {
+  height: auto;
+}
+
 .board {
   font-size: 100px;
+  width: 400px;
+  height: 400px;
 }
+
+/*  Notes
+
+  *
+
+*/
