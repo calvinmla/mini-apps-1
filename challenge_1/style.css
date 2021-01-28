@@ -1,16 +1,28 @@
-span {
-  width: auto;
-  margin: 20px;
-}
+/* span {
+  width: 200px;
+  margin: 5px;
+  color: aquamarine;
+} */
 
-.board div {
-  height: auto;
+/* .board div {
+  height: 100px;
 }
 
 .board {
   font-size: 100px;
   width: 400px;
   height: 400px;
+  background-color: burlywood;
+} */
+
+.square {
+  font-size: 100px;
+  border: 1px solid black;
+  width: 100px;
+  height: 100px;
+  background-color: beige;
+  display: inline-block;
+  position: static;
 }
 
 /*  Notes
