@@ -8,33 +8,26 @@ You have connected app.js to index.html!`);
 let board = {};
 let playerOnesTurn = true;
 
-
-/* ---Functions--- */
-
-// Determine winner/tie
-const gameResult = () => {
-
-}
-
 // Get all elements (squares) of the board
-const position = document.getElementsByClassName('square');
-
-// Add X to object and html then change state
-const addX = (square) => {
-  board[square.target.id] = 'X';
-  square.target.innerHTML = 'X';
-  playerOnesTurn = false;
+const squares = document.getElementsByClassName('square');
+const startGame = () => {
+  // Add event listeners to each element
+  for (let i = 0; i < squares.length; i++) {
+    board[squares[i].id] = '';
+    squares[i].addEventListener('click', eventHandler = e => {
+      playSquare(e.target);
+    });
+  }
 }
+startGame();
 
-// Add O to object and html then change state
-const addO = (square) => {
-  board[square.target.id] = 'O';
-  square.target.innerHTML = 'O';
-  playerOnesTurn = true;
-}
+/* ---------------Functions--------------- */
+
 const playSquare = (square) => {
   // If square is occupied in board object, alert and exit function
-  if (board[square.target.id]) {
+  console.log(square.id);
+  if (board[square.id].length > 0 || board[square.id].length > 0) {
+    console.log(board[square.id].length)
     alert('Square is occupied. Play a different square');
     return;
   }
@@ -47,17 +40,72 @@ const playSquare = (square) => {
 }
 
 
-/* ---Interaction--- */
 
-// Add event listeners to each element
-for (let i = 0; i < position.length; i++) {
-  board[position[i].id] = '';
-  position[i].addEventListener('click', event => {
-    playSquare(event);
-  })
+
+// Add X to object and html then change state
+const addX = (square) => {
+  square.innerHTML = 'X';
+  board[square.id] = 'X';
+  playerOnesTurn = false;
+  gameResult();
+}
+
+// Add O to object and html then change state
+const addO = (square) => {
+  square.innerHTML = 'O';
+  board[square.id] = 'O';
+  playerOnesTurn = true;
+  gameResult();
 }
 
 
+
+
+
+// Determine winner/tie
+const gameResult = () => {
+  // change board into an array and create a winner array with winning scenarios
+  let results = Object.values(board);
+  let winner = [
+    [results[0], results[1], results[2]],
+    [results[3], results[4], results[5]],
+    [results[6], results[7], results[8]],
+    [results[0], results[3], results[6]],
+    [results[1], results[4], results[7]],
+    [results[2], results[5], results[8]],
+    [results[0], results[4], results[8]],
+    [results[2], results[4], results[6]]
+  ];
+  if (results.join('').length === 9) {
+    document.removeEventListener('click', eventHandler);
+    alert('Tie!\n\nPress the Play Again button');
+  }
+  for (let i = 0; i < winner.length; i++) {
+    if (winner[i].join('') === 'XXX' || winner[i].join('') === 'OOO') {
+      // for (let j = 0; j < squares.length; j++) {
+      //   squares[j].removeEventListener('click', eventHandler);
+      // }
+      alert('Winner!\n\nPress the Play Again button');
+    }
+  }
+}
+
+
+console.log('pre-board', board)
+
+// const resetGame = () => {
+  let resetButton = document.getElementById('reset');
+  resetButton.addEventListener('click', (e) => {
+    playerOnesTurn = true;
+    for (let i = 0; i < squares.length; i++) {
+      squares[i].innerHTML = '';
+      delete board[squares[i].id];
+      console.log(squares[i].innerHTML)
+    }
+    console.log('post-board', board)
+    startGame();
+  })
+// }
 
 
 
