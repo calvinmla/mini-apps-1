@@ -1,29 +1,25 @@
-/* span {
-  width: 200px;
-  margin: 5px;
-  color: aquamarine;
+/* #board {
+  width: auto;
+  text-align: center;
 } */
 
-/* .board div {
-  height: 100px;
+#reset {
+margin-top: 20px;
 }
 
-.board {
-  font-size: 100px;
-  width: 400px;
-  height: 400px;
-  background-color: burlywood;
-} */
-
 .square {
+  text-align: center;
+  vertical-align: middle;
   font-size: 100px;
   border: 1px solid black;
   width: 100px;
   height: 100px;
-  background-color: beige;
   display: inline-block;
-  position: static;
 }
+
+/* h1 {
+  text-align: center;
+} */
 
 /*  Notes
 
