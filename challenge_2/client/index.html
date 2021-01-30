@@ -1,15 +1,26 @@
 <!DOCTYPE html>
 
 <html>
-  <head>
 
-  </head>
+  <head></head>
 
   <body>
-    <form action='/upload_json' method='POST'>
+
+    <!-- TEXT AREA -->
+    <!-- <form action='/text_area_upload_json' method='POST'>
       <textarea id='data' name='data' rows='48' cols='40'></textarea>
       <input type='submit' value='Submit'>
+    </form> -->
+    <!-- TEXT AREA -->
+
+
+    <!-- FILE PICKER -->
+    <form action='/file_picker_upload_json' method='POST'>
+      <input type='file' id='data' name='data' accept='doc'>
+      <input type='submit' value='Submit'>
     </form>
+    <!-- FILE PICKER -->
+
   </body>
 
   <script src='app.js'></script>

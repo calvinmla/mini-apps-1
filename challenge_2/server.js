@@ -10,16 +10,25 @@ app.use(express.static('client'));
 app.use(bodyParser.urlencoded({extended: true }))
 app.use(bodyParser.json());
 
-// GET method
+// GET methods --still needs work--
 app.get('/', (req, res) => {
   res.status(200);
-})
+});
+
+app.get('/upload_json', (req, res) => {
+  res.status(200);
+});
 
 // POST method
-app.post('/upload_json', (req, res) => {
-  // Parse data and run function that converts data
-  let = csvReport = converToCSV(JSON.parse(req.body.data));
-  res.status(201).send(csvReport);
+// app.post('/text_area_upload_json', (req, res) => {
+//   // Parse data and run function that converts data
+//   let csvReport = converToCSV(JSON.parse(req.body.data));
+//   res.status(201).send(csvReport);
+// });
+
+app.post('/file_picker_upload_json', (req, res) => {
+  // Might have to use fs.readFile or something else
+  console.log(req.body);
 });
 
 app.listen(port, () => {
@@ -44,5 +53,6 @@ const converToCSV = (data) => {
     }
   }
   getRowData(data);
+  console.log(csvData)
   return csvData;
 }
