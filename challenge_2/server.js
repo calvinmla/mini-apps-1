@@ -1,3 +1,4 @@
+const fs = require('fs');
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
@@ -15,21 +16,26 @@ app.get('/', (req, res) => {
   res.status(200);
 });
 
-app.get('/upload_json', (req, res) => {
-  res.status(200);
-});
-
-// POST method
-// app.post('/text_area_upload_json', (req, res) => {
-//   // Parse data and run function that converts data
-//   let csvReport = converToCSV(JSON.parse(req.body.data));
-//   res.status(201).send(csvReport);
+// app.get('/upload_json', (req, res) => {
+//   res.status(200);
 // });
 
-app.post('/file_picker_upload_json', (req, res) => {
-  // Might have to use fs.readFile or something else
-  console.log(req.body);
+// POST method
+app.post('/text_area_upload_json', (req, res) => {
+  // Parse data and run function that converts data
+  let csvReport = converToCSV(JSON.parse(req.body.data));
+  fs.writeFile('./samples/text_area_csv_report.csv', csvReport, (err)=> {
+    if (err) throw err;
+    console.log('File has been saved.');
+  })
+  res.status(201).send(csvReport);
 });
+
+/* Still needs work */
+// app.post('/file_picker_upload_json', (req, res) => {
+//   // Might have to use fs.readFile or something else
+//   console.log(req.body);
+// });
 
 app.listen(port, () => {
   console.log(`Listing at http://localhost:${port}`)
@@ -40,13 +46,13 @@ const converToCSV = (data) => {
   // Retrieve column values
   let csvData = Object.keys(data);
   csvData = csvData.slice(0, csvData.length - 1);
-  csvData = csvData.join(',') + '</br>';
+  csvData = csvData.join(',') + '\n';
 
   // Recursive function that retrieves row values
   const getRowData = (object) => {
     let rowData = Object.values(object);
     rowData = rowData.slice(0, rowData.length - 1);
-    rowData = rowData.join(',') + '</br>';
+    rowData = rowData.join(',') + '\n';
     csvData = csvData + rowData;
     for (let i = 0; i < object.children.length; i++) {
       getRowData(object.children[i])
