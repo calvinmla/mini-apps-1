@@ -14,21 +14,34 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // ---> app.use(bodyParser.json());
 
 // POST methods
-app.post('/text_area_upload_json', (req, res) => {
-  // Parse data and run function to convert data
-  let csvReport = funcs.convertToCSV(JSON.parse(req.body.textAreaData));
-  // Read html file and add converted JSON data
-  fs.readFile('./client/index.html', 'utf8', (err, html) => {
-    if (err) throw err;
-    res.status(201).send(html + '</br>' + csvReport);
-  })
-});
-
-// Still needs work
-// app.post('/file_picker_upload_json', (req, res) => {
-//   // Might have to use fs.readFile or something else
-//   console.log(req.body);
+// app.post('/text_area_upload_json', (req, res) => {
+//   // Parse data and run function to convert data
+//   const csvReport = funcs.convertToCSV(JSON.parse(req.body.textAreaData));
+//   // Read html file and add converted JSON data
+//   fs.readFile('./client/index.html', 'utf8', (err, html) => {
+//     if (err) throw err;
+//     res.status(201).send(html + '</br>' + csvReport);
+//   })
 // });
+
+app.post('/file_picker_upload_json', (req, res) => {
+  const file = JSON.parse(req.body);
+  console.log('file --->', file)
+
+  // Uses node's File System to write to server
+  fs.writeFile('./xfile_picker.json', file, (err) => {
+    if (err) throw err;
+    console.log('File has been saved.');
+  })
+
+  // fs.readFile('./file_picker.json', 'utf8', (err, data) => {
+  //   if (err) throw err;
+  //   console.log('data --->', data);
+  //   // const csvReport = funcs.convertToCSV(JSON.parse(data));
+  //   // console.log(csvReport)
+  // })
+
+});
 
 app.listen(port, () => {
   console.log(`Listing at http://localhost:${port}`)
@@ -45,9 +58,3 @@ app.listen(port, () => {
 //   res.status(200);
 // });
 
-
-// // Uses node's File System to write to server
-// fs.writeFile('./samples/text_area_csv_report.csv', csvReport, (err) => {
-//   if (err) throw err;
-// })
-// console.log('File has been saved.');
