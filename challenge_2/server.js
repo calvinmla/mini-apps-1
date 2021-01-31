@@ -25,14 +25,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // });
 
 app.post('/file_picker_upload_json', (req, res) => {
-  const file = JSON.parse(req.body);
+  const file = req.body;
   console.log('file --->', file)
+  res.send(file);
 
-  // Uses node's File System to write to server
-  fs.writeFile('./xfile_picker.json', file, (err) => {
-    if (err) throw err;
-    console.log('File has been saved.');
-  })
+  // // Uses node's File System to write to server
+  // fs.writeFile('./xfile_picker.json', file, (err) => {
+  //   if (err) throw err;
+  //   console.log('File has been saved.');
+  // })
 
   // fs.readFile('./file_picker.json', 'utf8', (err, data) => {
   //   if (err) throw err;
