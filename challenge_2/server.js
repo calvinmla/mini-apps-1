@@ -1,6 +1,7 @@
 const fs = require('fs');
 const express = require('express');
 const bodyParser = require('body-parser');
+const funcs = require('./client/app');
 const app = express();
 const port = 3000;
 
@@ -8,30 +9,22 @@ const port = 3000;
 app.use(express.static('client'));
 
 // Middleware to parse request
-app.use(bodyParser.urlencoded({extended: true }))
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+// Need to look into why I don't need this
+// ---> app.use(bodyParser.json());
 
-// GET methods --still needs work--
-app.get('/', (req, res) => {
-  res.status(200);
-});
-
-// app.get('/upload_json', (req, res) => {
-//   res.status(200);
-// });
-
-// POST method
+// POST methods
 app.post('/text_area_upload_json', (req, res) => {
-  // Parse data and run function that converts data
-  let csvReport = converToCSV(JSON.parse(req.body.data));
-  fs.writeFile('./samples/text_area_csv_report.csv', csvReport, (err)=> {
+  // Parse data and run function to convert data
+  let csvReport = funcs.convertToCSV(JSON.parse(req.body.textAreaData));
+  // Read html file and add converted JSON data
+  fs.readFile('./client/index.html', 'utf8', (err, html) => {
     if (err) throw err;
-    console.log('File has been saved.');
+    res.status(201).send(html + '</br>' + csvReport);
   })
-  res.status(201).send(csvReport);
 });
 
-/* Still needs work */
+// Still needs work
 // app.post('/file_picker_upload_json', (req, res) => {
 //   // Might have to use fs.readFile or something else
 //   console.log(req.body);
@@ -41,24 +34,20 @@ app.listen(port, () => {
   console.log(`Listing at http://localhost:${port}`)
 });
 
-// Function that converts req data into CSV format
-const converToCSV = (data) => {
-  // Retrieve column values
-  let csvData = Object.keys(data);
-  csvData = csvData.slice(0, csvData.length - 1);
-  csvData = csvData.join(',') + '\n';
 
-  // Recursive function that retrieves row values
-  const getRowData = (object) => {
-    let rowData = Object.values(object);
-    rowData = rowData.slice(0, rowData.length - 1);
-    rowData = rowData.join(',') + '\n';
-    csvData = csvData + rowData;
-    for (let i = 0; i < object.children.length; i++) {
-      getRowData(object.children[i])
-    }
-  }
-  getRowData(data);
-  console.log(csvData)
-  return csvData;
-}
+// GET methods
+// both still need work
+// app.get('/', (req, res) => {
+//   res.status(200);
+// });
+
+// app.get('/upload_json', (req, res) => {
+//   res.status(200);
+// });
+
+
+// // Uses node's File System to write to server
+// fs.writeFile('./samples/text_area_csv_report.csv', csvReport, (err) => {
+//   if (err) throw err;
+// })
+// console.log('File has been saved.');
