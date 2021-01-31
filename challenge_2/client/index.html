@@ -16,8 +16,8 @@
 
     <!-- FILE PICKER -->
     <h3>File Picker</h3>
-    <form action='/file_picker_upload_json' method='POST'>
-      <input type='file' id='filePickerData' name='filePickerData'>
+    <form action='/upload_json' method='POST' enctype="multipart/form-data">
+      <input type='file' id='jsonFile' name='jsonFile'>
       <input type='submit' value='Submit'>
     </form>
     <!-- FILE PICKER -->
