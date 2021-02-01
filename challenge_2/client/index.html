@@ -15,13 +15,39 @@
 
 
     <!-- FILE PICKER -->
-    <h3>File Picker</h3>
-    <form action='/upload_json' method='POST' enctype="multipart/form-data">
-      <input type='file' id='jsonFile' name='jsonFile'>
+    <!-- <h3>File Picker</h3>
+    <form action='/file_picker_upload_json' method='POST' enctype="multipart/form-data">
+      <input type='file' id='filePickerData' name='filePickerData'>
       <input type='submit' value='Submit'>
-    </form>
+    </form> -->
     <!-- FILE PICKER -->
+
   </body>
-  <!-- <script src='app.js'></script> -->
+
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <script>
+    $(document).ready(function() {
+      let ajaxForm = `<h3>Jquery/Ajax</h3>
+      <form>
+        <textarea id='ajaxData' name='ajaxData' rows='20' cols='40'></textarea>
+        <input type='submit' value='Submit'>
+      </form>`
+
+      $(ajaxForm).appendTo('body')
+
+      $('form').submit((event) => {
+        event.preventDefault();
+        $.ajax({
+          url: '/ajax_upload_json',
+          method: 'POST',
+          data: {ajaxData: $('textarea').val()},
+          success: (data) => {
+            $('textarea').val('');
+            $(`<p>${data}</p>`).appendTo('body');
+          }
+        })
+      })
+    })
+  </script>
 </html>
 
