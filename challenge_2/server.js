@@ -40,14 +40,20 @@ app.post('/file_picker_upload_json', upload.single('filePickerData'), (req, res)
   })
 });
 
-/* -----Ajax POST method----- */
+/* -----AJAX POST method----- */
 app.post('/ajax_upload_json', (req, res) => {
-  // console.log(JSON.parse(req.body.ajaxData);
   const csvReport = convertToCSV(JSON.parse(req.body.ajaxData));
-  fs.readFile('./client/index.html', 'utf8', (err, html) => {
+  // Uses node's File System to write to server
+  fs.writeFile('./JQuery_AJAX.csv', csvReport, (err) => {
     if (err) throw err;
-    res.status(201).send(csvReport);
+    console.log('File has been saved.');
+    // res.sendFile or res.download or res.attachment
+    res.status(201).set('Content-Type', 'text/csv').attachment('JQuery_AJAX.csv').sendFile(__dirname + '/JQuery_AJAX.csv');
   })
+  // fs.readFile('./JQuery_AJAX.csv', 'utf8', (err, file) => {
+  //   if (err) throw err;
+  //   res.status(201).sendFile('./JQuery_AJAX.csv');
+  // })
 });
 
 
@@ -61,13 +67,13 @@ const convertToCSV = (data) => {
   // Retrieve column values
   let csvData = Object.keys(data);
   csvData = csvData.slice(0, csvData.length - 1);
-  csvData = csvData.join(',') + '</br>';
+  csvData = csvData.join(',') + '\n';
 
   // Recursive function that retrieves row values
   const getRowData = (object) => {
     let rowData = Object.values(object);
     rowData = rowData.slice(0, rowData.length - 1);
-    rowData = rowData.join(',') + '</br>';
+    rowData = rowData.join(',') + '\n';
     csvData = csvData + rowData;
     for (let i = 0; i < object.children.length; i++) {
       getRowData(object.children[i])
@@ -76,20 +82,3 @@ const convertToCSV = (data) => {
   getRowData(data);
   return csvData;
 };
-
-
-// GET methods
-// both still need work
-// app.get('/', (req, res) => {
-//   res.status(200);
-// });
-
-// app.get('/upload_json', (req, res) => {
-//   res.status(200);
-// });
-
-  // // Uses node's File System to write to server
-  // fs.writeFile('./xfile_picker.json', file, (err) => {
-  //   if (err) throw err;
-  //   console.log('File has been saved.');
-  // })
