@@ -43,17 +43,13 @@ app.post('/file_picker_upload_json', upload.single('filePickerData'), (req, res)
 /* -----AJAX POST method----- */
 app.post('/ajax_upload_json', (req, res) => {
   const csvReport = convertToCSV(JSON.parse(req.body.ajaxData));
-  // Uses node's File System to write to server
-  fs.writeFile('./JQuery_AJAX.csv', csvReport, (err) => {
+  // Uses node's File System to write to server.
+  // Do not need to write if not sending the actual file.
+  fs.writeFile('./JQuery_AJAX.csv', csvReport, (err, file) => {
     if (err) throw err;
     console.log('File has been saved.');
-    // res.sendFile or res.download or res.attachment
-    res.status(201).set('Content-Type', 'text/csv').attachment('JQuery_AJAX.csv').sendFile(__dirname + '/JQuery_AJAX.csv');
+    res.status(201).send(csvReport);
   })
-  // fs.readFile('./JQuery_AJAX.csv', 'utf8', (err, file) => {
-  //   if (err) throw err;
-  //   res.status(201).sendFile('./JQuery_AJAX.csv');
-  // })
 });
 
 
@@ -67,13 +63,13 @@ const convertToCSV = (data) => {
   // Retrieve column values
   let csvData = Object.keys(data);
   csvData = csvData.slice(0, csvData.length - 1);
-  csvData = csvData.join(',') + '\n';
+  csvData = csvData.join(',') + '</br>';
 
   // Recursive function that retrieves row values
   const getRowData = (object) => {
     let rowData = Object.values(object);
     rowData = rowData.slice(0, rowData.length - 1);
-    rowData = rowData.join(',') + '\n';
+    rowData = rowData.join(',') + '</br>';
     csvData = csvData + rowData;
     for (let i = 0; i < object.children.length; i++) {
       getRowData(object.children[i])

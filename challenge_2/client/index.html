@@ -2,13 +2,17 @@
 
 <html>
 
-  <head></head>
+  <head>
+    <!-- JQuery/AJAX -->
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src='app.js' type='text/javascript'></script>
+  </head>
 
   <body>
 
     <h1>Convert your JSON</h1>
 
-    <!-- TEXT AREA -->
+    <!-- TEXT AREA CHALLENGE -->
 
     <!-- <h3>Text Area</h3>
     <form action='/text_area_upload_json' method='POST'>
@@ -16,10 +20,8 @@
       <input type='submit' value='Submit'>
     </form> -->
 
-    <!-- TEXT AREA -->
 
-
-    <!-- FILE PICKER -->
+    <!-- FILE PICKER CHALLENGE-->
 
     <!-- <h3>File Picker</h3>
     <form action='/file_picker_upload_json' method='POST' enctype="multipart/form-data">
@@ -27,45 +29,7 @@
       <input type='submit' value='Submit'>
     </form> -->
 
-    <!-- FILE PICKER -->
-
   </body>
-
-  <!-- JQuery/AJAX -->
-
-  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-  <script>
-    $(document).ready(function() {
-      let ajaxForm = `<h3>Jquery/Ajax</h3>
-      <form id='ajaxData' name='ajaxData'>
-        <textarea rows='20' cols='40'></textarea>
-        <input type='submit' value='Submit'>
-      </form>`
-
-      $(ajaxForm).appendTo('body')
-
-
-      $('#ajaxData').submit((event) => {
-        event.preventDefault();
-        $.ajax({
-          url: '/ajax_upload_json',
-          method: 'POST',
-          data: {ajaxData: $('textarea').val()},
-          success: (data) => {
-            console.log(typeof data)
-            $('textarea').val('');
-            $(`<a href=#>Download</a>`).appendTo('body');
-            $('a').click((event) => {
-              event.preventDefault();
-              window.location.href = data;
-            })
-          }
-        })
-      })
-    })
-  </script>
-
-  <!-- JQuery/AJAX -->
 
 </html>
 
