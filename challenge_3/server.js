@@ -11,7 +11,7 @@ app.post('/F1', (req, res) => {
   let data = req.body;
   db.insertUser(data, (error, result) => {
     if (error) console.log(error);
-    else res.sendStatus(201);
+    else res.sendStatus(204).end();
   });
 })
 
