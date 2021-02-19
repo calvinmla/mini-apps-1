@@ -1,13 +1,23 @@
-// import * as $ from 'jquery';
-
 class F1 extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
   }
 
-  click() {
-    this.props.f1Click();
+  f1Click(e) {
+    e.preventDefault();
+    $.ajax({
+      url: '/f1',
+      method: 'POST',
+      data: {
+        id: this.props.state.visitor,
+        name: $('#name').val(),
+        email: $('#email').val(),
+        password: $('#password').val(),
+      },
+      success: (data) => {
+        this.props.checker();
+      }
+    })
   }
 
   render() {
@@ -15,32 +25,28 @@ class F1 extends React.Component {
     let display;
     if (f1) {
       display = <React.Fragment>
-        <h5>Enter your info and click the Submit button to create an account. Then click the Next button to continue</h5>
+        <h5>Enter your info and click the Next button to create an account and continue</h5>
         <form action='/F1' method='POST'>
           <div>
-            <input type='text' name='name' required/>
+            <input id='name' type='text' name='name' required/>
             <label htmlFor='name'> Name</label>
           </div>
           <div>
-            <input type='email' name='email' required/>
+            <input id='email' type='email' name='email' required/>
             <label htmlFor='email'> Email</label>
           </div>
           <div>
-            <input type='text' name='password' required/>
+            <input id='password' type='text' name='password' required/>
             <label htmlFor='password'> Password</label>
           </div>
           <br/>
           <div>
-            <input type='submit' value='Submit' required/>
-          </div>
-          <br/>
-          <div>
-            <input type='button' value='Next' onClick={this.click.bind(this)}/>
+            <button onClick={this.f1Click.bind(this)}>Next</button>
           </div>
         </form>
       </React.Fragment>;
     } else {
-      display = <F2 f2Click={this.props.f2Click.bind(this)} state={this.props.state}/>;
+      display = <F2 state={this.props.state} checker={this.props.checker}/>;
     }
     return (
       <React.Fragment>
@@ -55,11 +61,22 @@ class F1 extends React.Component {
 class F2 extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
   }
 
-  click() {
-    this.props.f2Click();
+  f2Click(e) {
+    e.preventDefault();
+    $.ajax({
+      url: '/f2',
+      method: 'POST',
+      data: {
+        id: this.props.state.visitor,
+        address: $('#address').val(),
+        phone: $('#phone').val(),
+      },
+      success: (data) => {
+        this.props.checker();
+      }
+    })
   }
 
   render() {
@@ -67,28 +84,24 @@ class F2 extends React.Component {
     let display;
     if (f2) {
       display = <React.Fragment>
-        <h5>Enter your info and click the Submit button to save. Then click the Next button to continue</h5>
-        <form action='/F2' method='POST'>
+        <h5>Enter your info and click the Next button to save and continue</h5>
+        <form action='/f2' method='POST'>
           <div>
-            <input type='text' name='address' required/>
+            <input id='address' type='text' name='address' required/>
             <label htmlFor='address'> Address</label>
           </div>
           <div>
-            <input type='number' name='phone' required/>
+            <input id='phone' type='text' name='phone' required/>
             <label htmlFor='phone'> Phone Number</label>
           </div>
           <br/>
           <div>
-            <input type='submit' value='Submit' required/>
-          </div>
-          <br/>
-          <div>
-            <input type='button' value='Next' onClick={this.click.bind(this)}/>
+            <button onClick={this.f2Click.bind(this)}>Next</button>
           </div>
         </form>
       </React.Fragment>
     } else {
-      display = <F3/>
+      display = <F3 state={this.props.state} checker={this.props.checker}/>
     }
     return (
       <React.Fragment>
@@ -103,18 +116,114 @@ class F2 extends React.Component {
 class F3 extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+  }
+
+  f3Click(e) {
+    e.preventDefault();
+    $.ajax({
+      url: '/f3',
+      method: 'POST',
+      data: {
+        id: this.props.state.visitor,
+        creditcard: $('#cc').val(),
+        expiration: $('#exp').val(),
+        cvv: $('#cvv').val(),
+        zipcode: $('#zip').val(),
+      },
+      success: (data) => {
+        this.props.checker();
+      }
+    })
   }
 
   render() {
+    let f3 = this.props.state.f3;
+    let display;
+    if (f3) {
+      display = <React.Fragment>
+        <h5>Enter your info and click the Next button to save and continue</h5>
+        <form action='/f2' method='POST'>
+          <div>
+            <input id='cc' type='number' name='cc' required/>
+            <label htmlFor='cc'> Credit Card</label>
+          </div>
+          <div>
+            <input id='exp' type='number' name='exp' required/>
+            <label htmlFor='exp'> Expiration Date</label>
+          </div>
+          <div>
+            <input id='cvv' type='number' name='cvv' required/>
+            <label htmlFor='cvv'> CVV</label>
+          </div>
+          <div>
+            <input id='zip' type='number' name='zip' required/>
+            <label htmlFor='zip'> Zip Code</label>
+          </div>
+          <br/>
+          <div>
+            <button onClick={this.f3Click.bind(this)}>Next</button>
+          </div>
+        </form>
+      </React.Fragment>
+    } else {
+      display = <Summary state={this.props.state} checker={this.props.checker}/>
+    }
     return (
       <React.Fragment>
-        <h3>hi</h3>
+        {display}
       </React.Fragment>
     )
   }
 };
 
+
+class Summary extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  componentDidMount() {
+    $.ajax({
+      url: '/summary',
+      method: 'POST',
+      data: {
+        id: this.props.state.visitor
+      },
+      success: (data) => {
+        for (let key in data) {
+          if (key !== 'id') {
+            $(`<div>${key}: ${data[key]}</div>`).appendTo('#userInfo')
+          }
+        }
+      }
+    })
+  }
+
+  summaryClick(e) {
+    e.preventDefault();
+    this.props.checker();
+  }
+
+  render() {
+    let summary = this.props.state.summary;
+    let display;
+    if (summary) {
+      display = <React.Fragment>
+        <h5>Please confirm your information and click the Purchase button to complete your order</h5>
+        <div id='userInfo'></div>
+        <br/>
+        <button onClick={this.summaryClick.bind(this)} >Purchase</button>
+      </React.Fragment>;
+    } else {
+      display = <App/>;
+    }
+    return (
+      <React.Fragment>
+        {display}
+      </React.Fragment>
+    )
+  }
+};
 
 
 class App extends React.Component {
@@ -122,7 +231,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       visitor: 0,
-      homePage: true,
+      home: true,
       f1: false,
       f2: false,
       f3: false,
@@ -138,37 +247,51 @@ class App extends React.Component {
       success: (data) => {
         this.setState({
           visitor: data.insertId,
-          homePage: !this.state.homePage,
-          f1: !this.state.f1
-        });
+        })
+        this.stateChecker();
       }
     })
   }
 
-  f1Click() {
-    this.setState({
-      f1: !this.state.f1,
-      f2: !this.state.f2,
-    });
-  }
-
-  f2Click() {
-    this.setState({
-      f2: !this.state.f2,
-      f3: !this.state.f3
-    });
+  stateChecker() {
+    if (this.state.home) {
+      this.setState({
+        home: false,
+        f1: true
+      })
+    } else if (this.state.f1) {
+      this.setState({
+        f1: false,
+        f2: true
+      })
+    } else if (this.state.f2) {
+      this.setState({
+        f2: false,
+        f3: true
+      })
+    } else if (this.state.f3) {
+      this.setState({
+        f3: false,
+        summary: true
+      })
+    } else {
+      this.setState({
+        summary: false,
+        home: true
+      })
+    }
   }
 
   render() {
-    let homePage = this.state.homePage;
+    let home = this.state.home;
     let display;
-    if (homePage) {
+    if (home) {
       display = <React.Fragment>
         <h5>Click the Checkout button to continue</h5>
         <button onClick={this.homeClick.bind(this)} >Checkout</button>
       </React.Fragment>;
     } else {
-      display = <F1 f1Click={this.f1Click.bind(this)} f2Click={this.f2Click.bind(this)} state={this.state}/>;
+      display = <F1 state={this.state} checker={this.stateChecker.bind(this)}/>;
     }
     return (
       <React.Fragment>

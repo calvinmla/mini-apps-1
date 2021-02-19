@@ -10,24 +10,40 @@ app.use(bodyParser.urlencoded({extended: true}))
 app.post('/checkout', (req, res) => {
   db.createUser((error, result) => {
     if (error) console.log(error);
-    else {
-    console.log('server side ->',result);
-    res.status(201).send(result);
-    }
+    else res.status(201).send(result);
   })
 })
 
-app.post('/F1', (req, res) => {
+app.post('/f1', (req, res) => {
   let data = req.body;
   db.updateUser(data, (error, result) => {
     if (error) console.log(error);
-    else res.status(204).send();
+    else res.status(201).send();
   });
 })
 
-app.post('/F2', (req, res) => {
+app.post('/f2', (req, res) => {
   let data = req.body;
+  db.updateContactInfo(data, (error, result) => {
+    if (error) console.log(error);
+    else res.status(201).send();
+  });
+})
 
+app.post('/f3', (req, res) => {
+  let data = req.body;
+  db.updatePaymentInfo(data, (error, result) => {
+    if (error) console.log(error);
+    else res.status(201).send();
+  });
+})
+
+app.post('/summary', (req, res) => {
+  let data = req.body;
+  db.getSummary(data, (error, results) => {
+    if (error) console.log(error);
+    else res.status(200).send(results);
+  });
 })
 
 app.listen(port, () => {
