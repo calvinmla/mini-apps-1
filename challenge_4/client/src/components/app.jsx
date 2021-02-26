@@ -1,6 +1,5 @@
 import Board from './board.jsx';
 
-
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -22,7 +21,7 @@ class App extends React.Component {
     for (let i = 0; i < 6; i++) {
       let row = [];
       for (let j = 0; j < 7; j++) {
-        row.push('');
+        row.push(null);
       }
       board.push(row);
     }
@@ -47,15 +46,14 @@ class App extends React.Component {
   playTurn(column) {
     let board = this.state.board;
     for (let i = 5; i >= 0; i--) {
-      if (board[i][column] === '[ ]') {
-        board[i][column] = '[0]';
+      if (board[i][column] === null && board[i][column] !== undefined) {
+        board[i][column] = this.state.currentPlayer;
         break;
       }
     }
     this.setState({
       board: board,
     })
-    console.log(this.state.currentPlayer);
     this.changePlayer()
   }
 
