@@ -1,7 +1,7 @@
-const Square = ({square}) => {
-  console.log('square prop ->', square)
+
+const Square = ({square, column, play}) => {
   return (
-    <span>{square}</span>
+    <span className='square' onClick={() => {play(column)}}>{square}</span>
   )
 }
 

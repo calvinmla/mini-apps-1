@@ -1,12 +1,13 @@
 import Row from './row.jsx';
 
-const Board = ({board}) => {
-  console.log('board prop ->', board)
+const Board = ({board, play}) => {
   return (
     <div>
+      <span className='board'>
       {board.map((row, i) => (
-        <Row key={i} row={row}/>
+        <Row key={i} row={row} play={play}/>
       ))}
+      </span>
     </div>
   )
 }
