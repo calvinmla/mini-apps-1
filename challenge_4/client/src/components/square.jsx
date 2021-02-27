@@ -1,9 +1,9 @@
 
-const Square = ({square, column, play}) => {
+const Square = ({circle, column, play}) => {
   let color = 'white';
-  if (square === 1) {
+  if (circle === 1) {
     color = 'red';
-  } else if (square === 2) {
+  } else if (circle === 2) {
     color ='yellow';
   }
 

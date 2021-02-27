@@ -51,15 +51,14 @@ class App extends React.Component {
         break;
       }
     }
-    this.horizontalWin();
-    this.verticalWin();
-    this.leftDiagonalWin();
-    this.rightDiagonalWin();
-    this.tieGame();
+    this.horizontalWin(board);
+    this.verticalWin(board);
+    this.leftDiagonalWin(board);
+    this.rightDiagonalWin(board);
+    this.tieGame(board);
   }
 
-  horizontalWin() {
-    let board = this.state.board;
+  horizontalWin(board) {
     for (let i = 5; i >= 0; i--) {
       for (let j = 0; j <= 3; j++) {
         if (board[i][j] !== 0) {
@@ -76,8 +75,7 @@ class App extends React.Component {
     }
   }
 
-  verticalWin() {
-    let board = this.state.board;
+  verticalWin(board) {
     for (let i = 5; i >= 3; i--) {
       for (let j = 0; j < 7; j++) {
         if (board[i][j] !== 0) {
@@ -94,8 +92,7 @@ class App extends React.Component {
     }
   }
 
-  leftDiagonalWin() {
-    let board = this.state.board;
+  leftDiagonalWin(board) {
     for (let i = 2; i >= 0; i--) {
       for (let j = 0; j < 4; j++) {
         if (board[i][j] !== 0) {
@@ -112,8 +109,7 @@ class App extends React.Component {
     }
   }
 
-  rightDiagonalWin() {
-    let board = this.state.board;
+  rightDiagonalWin(board) {
     for (let i = 2; i >= 0; i--) {
       for (let j = 6; j >= 3; j--) {
         if (board[i][j] !== 0) {
@@ -130,8 +126,7 @@ class App extends React.Component {
     }
   }
 
-  tieGame() {
-    let board = this.state.board;
+  tieGame(board) {
     for (let i = 0; i < 6; i++) {
       for (let j = 0; j < 7; j++) {
         if (board[i][j] === 0) {
