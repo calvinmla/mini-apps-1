@@ -4,8 +4,8 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      player1: '1',
-      player2: '2',
+      player1: 1,
+      player2: 2,
       currentPlayer: null,
       board: [],
       gameOver: false,
@@ -21,7 +21,7 @@ class App extends React.Component {
     for (let i = 0; i < 6; i++) {
       let row = [];
       for (let j = 0; j < 7; j++) {
-        row.push(null);
+        row.push(0);
       }
       board.push(row);
     }
@@ -46,15 +46,40 @@ class App extends React.Component {
   playTurn(column) {
     let board = this.state.board;
     for (let i = 5; i >= 0; i--) {
-      if (board[i][column] === null && board[i][column] !== undefined) {
+      if (board[i][column] === 0) {
         board[i][column] = this.state.currentPlayer;
+        this.changePlayer()
         break;
       }
     }
-    this.setState({
-      board: board,
-    })
-    this.changePlayer()
+    this.horizontalWin();
+  }
+
+  horizontalWin() {
+    let board = this.state.board;
+    for (let i = 5; i >= 0; i--) {
+      for (let j = 0; j < 7; j++) {
+        if (board[i][j] !== 0) {
+          if (board[i][j] === board[i][j + 1] &&
+              board[i][j] === board[i][j + 2] &&
+              board[i][j] === board[i][j + 3]) {
+            console.log( 'winner', board[i][j] );
+          }
+        }
+      }
+    }
+  }
+
+  verticalWin() {
+
+  }
+
+  diagonalWin() {
+
+  }
+
+  tieGame() {
+
   }
 
   render () {
