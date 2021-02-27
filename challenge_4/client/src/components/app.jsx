@@ -52,9 +52,11 @@ class App extends React.Component {
         break;
       }
     }
-    this.horizontalWin();
-    this.verticalWin();
-    this.leftDiagonalWin();
+    // this.horizontalWin();
+    // this.verticalWin();
+    // this.leftDiagonalWin();
+    // this.rightDiagonalWin();
+    this.tieGame();
   }
 
   horizontalWin() {
@@ -65,7 +67,7 @@ class App extends React.Component {
           if (board[i][j] === board[i][j + 1] &&
               board[i][j] === board[i][j + 2] &&
               board[i][j] === board[i][j + 3]) {
-            console.log('horizontal winner', board[i][j]);
+            return board[i][j];
           }
         }
       }
@@ -80,7 +82,7 @@ class App extends React.Component {
           if (board[i][j]=== board[i - 1][j] &&
               board[i][j]=== board[i - 2][j] &&
               board[i][j]=== board[i - 3][j]) {
-            console.log('vertical winner', board[i][j])
+            return board[i][j];
           }
         }
       }
@@ -95,7 +97,22 @@ class App extends React.Component {
           if (board[i][j] === board[i + 1][j + 1] &&
               board[i][j] === board[i + 2][j + 2] &&
               board[i][j] === board[i + 3][j + 3]) {
-            console.log('left diagonal winner', board[i][j])
+            return board[i][j];
+          }
+        }
+      }
+    }
+  }
+
+  rightDiagonalWin() {
+    let board = this.state.board;
+    for (let i = 2; i >= 0; i--) {
+      for (let j = 6; j >= 3; j--) {
+        if (board[i][j] !== 0) {
+          if (board[i][j] === board[i + 1][j - 1] &&
+              board[i][j] === board[i + 2][j - 2] &&
+              board[i][j] === board[i + 3][j - 3]) {
+            return board[i][j];
           }
         }
       }
@@ -103,7 +120,21 @@ class App extends React.Component {
   }
 
   tieGame() {
-
+    let tie;
+    let board = this.state.board;
+    for (let i = 0; i < 6; i++) {
+      for (let j = 0; j < 7; j++) {
+        if (board[i][j] === 0) {
+          tie = false;
+          break;
+        } else {
+          tie = true;
+        }
+      }
+    }
+    if (tie) {
+      alert('tie')
+    }
   }
 
   render () {
