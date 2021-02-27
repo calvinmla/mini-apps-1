@@ -53,6 +53,7 @@ class App extends React.Component {
       }
     }
     this.horizontalWin();
+    this.verticalWin();
   }
 
   horizontalWin() {
@@ -63,7 +64,7 @@ class App extends React.Component {
           if (board[i][j] === board[i][j + 1] &&
               board[i][j] === board[i][j + 2] &&
               board[i][j] === board[i][j + 3]) {
-            console.log( 'winner', board[i][j] );
+            console.log('winner', board[i][j]);
           }
         }
       }
@@ -71,7 +72,19 @@ class App extends React.Component {
   }
 
   verticalWin() {
-
+    let board = this.state.board;
+    console.log(board);
+    for (let i = 5; i >= 0; i--) {
+      for (let j = 0; j < 7; j++) {
+        if (board[i][j] !== 0) {
+          if (board[i][j]=== board[i - 1][j] &&
+              board[i][j]=== board[i - 2][j] &&
+              board[i][j]=== board[i - 3][j]) {
+            console.log('winner', board[i][j])
+          }
+        }
+      }
+    }
   }
 
   diagonalWin() {
