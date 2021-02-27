@@ -9,7 +9,7 @@ CREATE TABLE user (
   password VARCHAR(40),
   address VARCHAR(60),
   phone VARCHAR(20),
-  creditcard INT(16),
+  creditcard VARCHAR(16),
   expiration INT(11),
   cvv INT(3),
   zipcode INT(9),

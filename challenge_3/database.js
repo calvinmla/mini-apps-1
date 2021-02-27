@@ -36,7 +36,7 @@ module.exports = {
   },
 
   updatePaymentInfo: (data, cb) => {
-    const query = `UPDATE user SET creditcard=${data.creditcard}, expiration=${data.expiration}, cvv=${data.cvv}, zipcode=${data.zipcode} WHERE id=${data.id}`;
+    const query = `UPDATE user SET creditcard='${data.creditcard}', expiration=${data.expiration}, cvv=${data.cvv}, zipcode=${data.zipcode} WHERE id=${data.id}`;
     db.query(query, (error, results) => {
       if (error) cb(console.log(error), null)
       else cb(null, console.log('User payment updated'))
