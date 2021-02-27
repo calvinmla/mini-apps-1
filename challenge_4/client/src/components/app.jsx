@@ -6,9 +6,8 @@ class App extends React.Component {
     this.state = {
       player1: 1,
       player2: 2,
-      currentPlayer: null,
-      board: [],
-      gameOver: false,
+      currentPlayer: 0,
+      board: []
     };
   }
 
@@ -52,10 +51,10 @@ class App extends React.Component {
         break;
       }
     }
-    // this.horizontalWin();
-    // this.verticalWin();
-    // this.leftDiagonalWin();
-    // this.rightDiagonalWin();
+    this.horizontalWin();
+    this.verticalWin();
+    this.leftDiagonalWin();
+    this.rightDiagonalWin();
     this.tieGame();
   }
 
@@ -67,7 +66,10 @@ class App extends React.Component {
           if (board[i][j] === board[i][j + 1] &&
               board[i][j] === board[i][j + 2] &&
               board[i][j] === board[i][j + 3]) {
-            return board[i][j];
+            setTimeout(() => {
+              alert(`Player ${board[i][j]} won!`);
+              this.createBoard();
+            }, 100)
           }
         }
       }
@@ -82,7 +84,10 @@ class App extends React.Component {
           if (board[i][j]=== board[i - 1][j] &&
               board[i][j]=== board[i - 2][j] &&
               board[i][j]=== board[i - 3][j]) {
-            return board[i][j];
+            setTimeout(() => {
+              alert(`Player ${board[i][j]} won!`);
+              this.createBoard();
+            }, 100)
           }
         }
       }
@@ -97,7 +102,10 @@ class App extends React.Component {
           if (board[i][j] === board[i + 1][j + 1] &&
               board[i][j] === board[i + 2][j + 2] &&
               board[i][j] === board[i + 3][j + 3]) {
-            return board[i][j];
+            setTimeout(() => {
+              alert(`Player ${board[i][j]} won!`);
+              this.createBoard();
+            }, 100)
           }
         }
       }
@@ -112,7 +120,10 @@ class App extends React.Component {
           if (board[i][j] === board[i + 1][j - 1] &&
               board[i][j] === board[i + 2][j - 2] &&
               board[i][j] === board[i + 3][j - 3]) {
-            return board[i][j];
+            setTimeout(() => {
+              alert(`Player ${board[i][j]} won!`);
+              this.createBoard();
+            }, 100)
           }
         }
       }
@@ -120,21 +131,18 @@ class App extends React.Component {
   }
 
   tieGame() {
-    let tie;
     let board = this.state.board;
     for (let i = 0; i < 6; i++) {
       for (let j = 0; j < 7; j++) {
         if (board[i][j] === 0) {
-          tie = false;
-          break;
-        } else {
-          tie = true;
+          return;
         }
       }
     }
-    if (tie) {
-      alert('tie')
-    }
+    setTimeout(() => {
+      alert('Tie game!');
+      this.createBoard();
+    }, 100)
   }
 
   render () {
